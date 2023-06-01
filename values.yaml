@@ -1,0 +1,4 @@
+serviceAccount:
+  create: true
+  annotations:
+    iam.gke.io/gcp-service-account: spacelift@ac-spacelift.iam.gserviceaccount.com

@@ -8,11 +8,20 @@ resource "google_service_account" "spacelift" {
   display_name = "Spacelift Service Account"
 }
 
-resource "google_project_iam_binding" "organization" {
+resource "google_service_account_iam_binding" "spacelift-workload-identity" {
   role     = "roles/iam.workloadIdentityUser"
+  service_account_id = google_service_account.spacelift.name
+
+  members = [
+   "serviceAccount:ac-spacelift.svc.id.goog[default/spacelift-worker]",
+  ]
+}
+
+resource "google_project_iam_binding" "owner" {
+  role     = "roles/owner"
   project  = google_project.ac-spacelift.id
 
   members = [
-   "serviceAccount:ac-spacelift.svc.id.goog[spacelift/spacelift]",
+   "serviceAccount:${google_service_account.spacelift.email}",
   ]
 }

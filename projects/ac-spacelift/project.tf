@@ -1,5 +1,5 @@
 data "google_organization" "org" {
-  domain = "atomic.computer"
+  organization = "76970739165"
 }
 
 data "google_billing_account" "account" {

@@ -33,3 +33,15 @@ resource "google_project_service" "cloudresourcemanager" {
 
   disable_dependent_services = true
 }
+
+resource "google_project_service" "billing" {
+  project = google_project.ac-spacelift.project_id
+  service = "cloudbilling.googleapis.com"
+
+  timeouts {
+    create = "30m"
+    update = "40m"
+  }
+
+  disable_dependent_services = true
+}

@@ -1,4 +1,4 @@
 provider "google" {
-  project     = "ac-spacelift"
+  project     = "ac-test-1"
   region      = "us-central1"
 }

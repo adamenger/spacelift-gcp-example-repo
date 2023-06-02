@@ -7,9 +7,9 @@ resource "google_storage_bucket" "ac-test-1-state" {
   uniform_bucket_level_access = true
 }
 
-resource "google_storage_bucket_iam_policy" "policy" {
+resource "google_storage_bucket_iam_policy" "ac-test-1-state-policy" {
   bucket        = google_storage_bucket.ac-test-1-state.name
-  policy_data   = data.google_iam_policy.state-admin.policy_data
+  policy_data   = data.google_iam_policy.ac-test-1-state-admin.policy_data
 }
 
 data "google_iam_policy" "ac-test-1-state-admin" {

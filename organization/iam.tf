@@ -40,3 +40,13 @@ resource "google_organization_iam_binding" "spacelift-sa-creator" {
    "serviceAccount:spacelift-project-creator@ac-spacelift.iam.gserviceaccount.com",
   ]
 }
+
+# these bindings allow spacelift-project-creator service account to add iam bindings to projects
+resource "google_organization_iam_binding" "spacelift-billing-user" {
+  role     = "roles/billing.user"
+  org_id   = data.google_organization.org.org_id
+
+  members = [
+   "serviceAccount:spacelift-project-creator@ac-spacelift.iam.gserviceaccount.com",
+  ]
+}

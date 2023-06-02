@@ -26,14 +26,27 @@ resource "google_project_iam_binding" "owner" {
   ]
 }
 
-data "google_iam_policy" "state-writer" {
+data "google_iam_policy" "state-admin" {
   binding {
     role = "roles/storage.admin"
     members = [
-      "serviceAccount:${google_service_account.spacelift.email}",
       "user:admin-adam@atomic.computer",
     ]
   }
+}
+
+data "google_iam_policy" "state-writer" {
+  binding {
+    role = "roles/storage.objectAdmin"
+    members = [
+      "serviceAccount:${google_service_account.spacelift.email}",
+    ]
+  }
+}
+
+resource "google_storage_bucket_iam_policy" "admin-policy" {
+  bucket = google_storage_bucket.state.name
+  policy_data = data.google_iam_policy.state-admin.policy_data
 }
 
 resource "google_storage_bucket_iam_policy" "policy" {

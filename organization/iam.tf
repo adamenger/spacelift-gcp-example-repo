@@ -1,21 +1,32 @@
 data "google_organization" "org" {
-  domain = "atomic.computer"
+  organization = "76970739165"
 }
 
-resource "google_organization_iam_binding" "organization" {
-  role    = "roles/owner"
-  org_id  = data.google_organization.org.org_id
+resource "google_organization_iam_binding" "owner" {
+  role     = "roles/owner"
+  org_id   = data.google_organization.org.org_id
 
   members = [
-   "serviceAccount:spacelift@ac-spacelift.iam.gserviceaccount.com",
+   "user:admin-adam@atomic.computer",
   ]
 }
 
-resource "google_organization_iam_binding" "ae_owner" {
-  role    = "roles/owner"
-  org_id  = data.google_organization.org.org_id
+# these bindings allow spacelift-project-creator service account to create projects
+resource "google_organization_iam_binding" "spacelift-project-creator" {
+  role     = "roles/resourcemanager.projectCreator"
+  org_id   = data.google_organization.org.org_id
 
   members = [
-   "user:adamenger@gmail.com",
+   "serviceAccount:spacelift-project-creator@ac-spacelift.iam.gserviceaccount.com",
+  ]
+}
+
+# these bindings allow spacelift-project-creator service account to add iam bindings to projects
+resource "google_organization_iam_binding" "spacelift-project-iam" {
+  role     = "roles/resourcemanager.projectIamAdmin"
+  org_id   = data.google_organization.org.org_id
+
+  members = [
+   "serviceAccount:spacelift-project-creator@ac-spacelift.iam.gserviceaccount.com",
   ]
 }

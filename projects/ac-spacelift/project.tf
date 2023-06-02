@@ -1,4 +1,4 @@
-resource "google_project" "ac-spacelift" {
+resource "google_project" "project" {
   name       = "AC Spacelift"
   project_id = "ac-spacelift"
   org_id     = "76970739165"

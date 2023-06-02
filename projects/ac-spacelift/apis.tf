@@ -10,7 +10,7 @@ locals {
 
 resource "google_project_service" "apis" {
   for_each = toset(local.apis)
-  project = google_project.ac-spacelift.project_id
+  project = google_project.project.project_id
   service = each.key
 
   timeouts {

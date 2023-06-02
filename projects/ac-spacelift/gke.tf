@@ -32,7 +32,7 @@ resource "google_compute_network" "spacelift-network" {
 
 module "gke" {
   source                     = "terraform-google-modules/kubernetes-engine/google"
-  project_id                 = google_project.ac-spacelift.project_id
+  project_id                 = google_project.project.project_id
   name                       = "spacelift-test"
   region                     = "us-central1"
   zones                      = ["us-central1-a", "us-central1-b", "us-central1-f"]

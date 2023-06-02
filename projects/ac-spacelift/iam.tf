@@ -19,9 +19,24 @@ resource "google_service_account_iam_binding" "spacelift-workload-identity" {
 
 resource "google_project_iam_binding" "owner" {
   role     = "roles/owner"
-  project  = google_project.ac-spacelift.id
+  project  = google_project.project.id
 
   members = [
    "serviceAccount:${google_service_account.spacelift.email}",
   ]
+}
+
+data "google_iam_policy" "state-writer" {
+  binding {
+    role = "roles/storage.admin"
+    members = [
+      "serviceAccount:${google_service_account.spacelift.email}",
+      "user:admin-adam@atomic.computer",
+    ]
+  }
+}
+
+resource "google_storage_bucket_iam_policy" "policy" {
+  bucket = google_storage_bucket.state.name
+  policy_data = data.google_iam_policy.state-writer.policy_data
 }

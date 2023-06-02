@@ -17,3 +17,18 @@ resource "google_storage_bucket" "state" {
 
   uniform_bucket_level_access = true
 }
+
+resource "google_storage_bucket_iam_policy" "policy" {
+  bucket = google_storage_bucket.state.name
+  policy_data = data.google_iam_policy.state-admin.policy_data
+}
+
+data "google_iam_policy" "state-admin" {
+  binding {
+    role = "roles/storage.admin"
+    members = [
+      "user:admin-adam@atomic.computer",
+      "serviceAccount:${google_service_account.spacelift.email}",
+    ]
+  }
+}

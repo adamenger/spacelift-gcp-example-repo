@@ -32,7 +32,7 @@ resource "google_service_account_iam_binding" "spacelift-workload-identity" {
 
 # This service account is impersonated to create projects on the org
 resource "google_service_account" "spacelift-project-creator" {
-  account_id   = "spacelift"
+  account_id   = "spacelift-project-creator"
   display_name = "Spacelift Org Project Creator"
 }
 

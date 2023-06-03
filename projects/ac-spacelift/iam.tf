@@ -42,6 +42,6 @@ resource "google_service_account_iam_binding" "spacelift-project-creator" {
   service_account_id = google_service_account.spacelift-project-creator.name
 
   members = [
-   "serviceAccount:ac-spacelift.svc.id.goog[default/spacelift-worker]",
+   "serviceAccount:${google_service_account.spacelift.email}",
   ]
 }

@@ -7,7 +7,7 @@ resource "google_service_account" "spacelift-operator" {
 
 # This binding grants any roles set on the module to the spacelift-operator account
 resource "google_project_iam_binding" "operator-roles" {
-  for_each   = toset(local.operator_roles)
+  for_each   = toset(var.operator_roles)
   role     = "roles/${each.key}"
   project  = google_project.project.id
 

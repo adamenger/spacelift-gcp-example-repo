@@ -9,7 +9,7 @@ resource "google_service_account" "spacelift-operator" {
 resource "google_project_iam_binding" "operator-roles" {
   for_each   = toset(var.operator_roles)
   role       = "roles/${each.key}"
-  project    = vars.project
+  project    = var.project
 
   members = [
    "serviceAccount:${google_service_account.spacelift-operator.email}",

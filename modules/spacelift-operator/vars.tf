@@ -8,3 +8,8 @@ variable "operator_roles" {
   type        = list(string)
   default     = []
 }
+
+variable "project" {
+  description = "Project to create the service account on"
+  type        = string
+}

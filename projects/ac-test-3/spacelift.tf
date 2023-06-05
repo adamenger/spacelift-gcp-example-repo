@@ -4,6 +4,7 @@ module "spacelift-operator" {
   spacelift_worker_service_account = "spacelift@ac-spacelift.iam.gserviceaccount.com"
   operator_roles = [
     "pubsub.admin",
-    "editor",
+    "storage.admin",
+    "owner",
   ]
 }

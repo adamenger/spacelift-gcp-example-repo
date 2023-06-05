@@ -1,18 +1,38 @@
-# Simplified GCP Organization Test Environment
+# A sample GCP environment w/ Spacelift
 
 This repository provides a sample layout for deploying Spacelift with the use of Service Account Impersonation.
 
 ## Why is this important?
 
-The easy option is to give your Spacelift Service Account owner on all projects across your organization.
+The easy option is to give your Spacelift Service Account owner on all projects across your organization. **But don't!**
 
-**But don't!:**
+A better path exists and we hope this repo helps you see how it can be done.
 
-A better path exists: 
-
-Limit Spacelift's worker access to its own dedicated project, and create a unique service account for each other project. Then we grant the ability for the Spacelift Worker to impersonate each project account. This approach helps to split permissions into smaller, more manageable parts, rather than granting full access to a single service account.
+The idea: Limit Spacelift's worker access to its own dedicated project and create a unique service account for every other Spacelift managed project. Then we grant the ability for the Spacelift Worker to impersonate each project account. This approach helps to split permissions into smaller, more manageable parts, rather than granting full access to a single service account.
 
 ## Structure
+
+### Modules
+
+In this repo we've published a module under `modules/spacelift-operator`. This module reduces the boilerplate to add the Spacelift Operator account to each project.
+
+You can use it like so:
+
+```
+module "spacelift-operator" {
+  source = "modules/spacelift-operator"
+  project = google_project.project.id
+  spacelift_worker_service_account = "spacelift@ac-spacelift.iam.gserviceaccount.com"
+  operator_roles = [
+    "pubsub.admin",
+  ]
+}
+```
+
+* `spacelift_worker_service_account` - this is set to the email address of the "Spacelift Worker" service account. 
+* `operator_roles` - this is the list of roles that we grant to the projects Spacelift Operator account. e.g: if you need to create pubsub topics, use `pubsub.admin` 
+
+See a full list of available roles [here](https://cloud.google.com/iam/docs/understanding-roles#resource-manager-roles) and remember to choose the least permissive role!
 
 ### Organization Folder
 

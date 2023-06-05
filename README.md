@@ -1,23 +1,25 @@
-# GCP Organization Test Environment
-This is a quick example repo of how you could deploy Spacelift to utilize Service Account Impersonation.
+# Simplified GCP Organization Test Environment
 
-# Why does this matter?
-At the time of writing spacelift docs suggest creating an org wide service account that has owner permissions on all projects. I suspect organizations have followed this pattern and I would like to offer an alternative. The TLDR of my suggestion is that we should isolate spacelift resources in its own project. Then, we should create an operator service account which only has permissions to impersonate other project service accounts. Next, we create a spacelift service account that is only used during project creation. Finally, we create a service account in each project which can manage the project but do nothing outside of it. This helps us break down the permission structure into more managable chunks as opposed to giving a single service account org wide permissions. 
+This repository provides a sample layout for deploying Spacelift with the use of Service Account Impersonation.
 
-# Layout
+## Why is this important?
 
-## organization/
-This is where I store org settings to give permissions to the Spacelift service accounts. You'll notice that "Spacelift Operator" service account gets no permissions on the org. Only the "Spacelift Project Creator" which is only toggled on to create projects and then swapped out once we're done.
+The easy option is to give your Spacelift Service Account owner on all projects across your organization. But a better way exists: Limit Spacelift's worker access to its own dedicated project, and create a unique service account for each other project. Then we grant the ability for the Spacelift Worker to impersonate each project account. This approach helps to split permissions into smaller, more manageable parts, rather than granting full access to a single service account.
 
-## projects/
-This folder contains projects which are their own stacks in Spacelift.
+## Structure
 
-### ac-spacelift
-This is the project where spacelift is deployed to. We set up a gke cluster and then deploy the Spacelift helm chart. 
+### Organization Folder
 
-Then we create two service accounts. "Spacelift Operator" and "Spacelift Project Creator". The operator service account is the one that performs the impersonation and is the account that is attached to the k8s pods using Workload Identity. The "Spacelift Project Creator" service account is only used during project creation since it requires org access to create the project, create the projects spacelift operator service account and do some IAM policy setting. 
+This folder contains the settings for assigning permissions to Spacelift service accounts. Note that the "Spacelift Operator" service account doesn't have any permissions at the organization level. Only the "Spacelift Project Creator" has permission and is activated only when creating new projects.
 
-Once the project is created, we update the provider settings to use the operator service account. The reason we do this is because the "Project Creator" wields org wide permissions to create and modify service accounts and their associated IAM policies. Nothing should carry these permissions long term. When we swap the `impersonated_service_account` in the `provider.tf` to use the projects Operator account, we avoid potential abuse of these extraneous permissions.
+### Projects Folder
 
-### ac-test-1
-This is where we test out service account impersonation. We create a blank project with a few enabled API's, create a service account and then allow the Spacelift Service Account which lives in `ac-spacelift` permission to impersonate the `spacelift-operator` service account which lives in `ac-test-1`.
+This folder holds individual projects, each of which is a unique Spacelift stack.
+
+#### Spacelift Project (ac-spacelift)
+
+This project is where Spacelift gets deployed. We set up a GKE cluster and deploy the Spacelift Helm chart. Two service accounts, "Spacelift Operator" and "Spacelift Project Creator," are created here. The "Spacelift Operator" account is used to perform impersonation, while the "Spacelift Project Creator" is used exclusively during project creation. After a project is created, the "Project Creator" is replaced with the "Operator" to restrict the scope of its broad permissions.
+
+#### Test Project (ac-test-1)
+
+This project is used for testing service account impersonation. We create a basic project, enable a few APIs, create a service account, and allow the Spacelift Service Account in the `ac-spacelift` project to impersonate the `spacelift-operator` service account in `ac-test-1`. 

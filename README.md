@@ -32,7 +32,7 @@ module "spacelift-operator" {
 * `spacelift_worker_service_account` - this is set to the email address of the "Spacelift Worker" service account. 
 * `operator_roles` - this is the list of roles that we grant to the projects Spacelift Operator account. e.g: if you need to create pubsub topics, use `pubsub.admin` 
 
-See a full list of available roles [here](https://cloud.google.com/iam/docs/understanding-roles) and remember to choose the least permissive role!
+See a full list of available roles [here](https://cloud.google.com/iam/docs/understanding-roles) and remember to choose the least permissive role for the job being done!
 
 ### Organization Folder
 

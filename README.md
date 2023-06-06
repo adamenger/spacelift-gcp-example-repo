@@ -10,9 +10,9 @@ A better path exists and we hope this repo helps you see how it can be done.
 
 The idea: Limit Spacelift's worker access to its own dedicated project and create a unique service account for every other Spacelift managed project. Then we grant the ability for the Spacelift Worker to impersonate each project account. This approach helps to split permissions into smaller, more manageable parts, rather than granting full access to a single service account.
 
-## Structure
+# Folder Structure
 
-### Modules
+## modules/
 
 In this repo we've published a module under `modules/spacelift-operator`. This module reduces the boilerplate to add the Spacelift Operator account to each project.
 
@@ -34,15 +34,15 @@ module "spacelift-operator" {
 
 See a full list of available roles [here](https://cloud.google.com/iam/docs/understanding-roles) and remember to choose the least permissive role for the job being done!
 
-### Organization Folder
+## organization/
 
 This folder contains the settings for assigning permissions to Spacelift service accounts. Note that the "Spacelift Operator" service account doesn't have any permissions at the organization level. Only the "Spacelift Project Creator" has permission and is activated only when creating new projects.
 
-### Projects Folder
+## projects/
 
 This folder holds individual projects, each of which is a unique Spacelift stack.
 
-#### Spacelift Project (ac-spacelift)
+### Spacelift Project (ac-spacelift)
 
 This project is where Spacelift gets deployed. We set up a GKE cluster and deploy the [Spacelift worker helm chart](https://github.com/spacelift-io/spacelift-workerpool-k8s). 
 
@@ -59,6 +59,6 @@ This is the minimally permissive service account that the kubernetes nodes will 
 This service account is used to perform impersonation and is the service account that all Spacelift runs will execute as. The only permission this service account carries long term is the ability to Impersonate project Spacelift Operator accounts.
 
 
-#### Test Project (ac-test-1)
+### Test Project (ac-test-1)
 
 This project is used for testing service account impersonation. We create a basic project, enable a few APIs, create a service account, and allow the Spacelift Service Account in the `ac-spacelift` project to impersonate the `spacelift-operator` service account in `ac-test-1`. 

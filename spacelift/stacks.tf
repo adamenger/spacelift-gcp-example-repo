@@ -7,7 +7,7 @@ resource "spacelift_stack" "managed-stacks" {
   terraform_version = "1.4.6"
 
   name              = "GCP: ${each.value}"
-  repository        = "adamenger/spacelift-gcp-example-repo"
+  repository        = "spacelift-gcp-example-repo"
   branch            = "master"
   project_root      = "projects/${each.value}"
   administrative    = false

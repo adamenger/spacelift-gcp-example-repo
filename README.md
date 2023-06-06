@@ -44,7 +44,7 @@ This folder holds individual projects, each of which is a unique Spacelift stack
 
 #### Spacelift Project (ac-spacelift)
 
-This project is where Spacelift gets deployed. We set up a GKE cluster and deploy the Spacelift Helm chart. 
+This project is where Spacelift gets deployed. We set up a GKE cluster and deploy the [Spacelift worker helm chart](https://github.com/spacelift-io/spacelift-workerpool-k8s). 
 
 #### Service Accounts
 

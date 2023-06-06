@@ -15,6 +15,7 @@ resource "spacelift_stack" "spacelift" {
   project_root      = "spacelift/"
   administrative    = true
   autodeploy        = false
+  terraform_external_state_access = true
 }
 
 resource "spacelift_stack" "managed-stacks" {

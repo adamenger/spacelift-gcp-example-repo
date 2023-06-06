@@ -3,7 +3,7 @@ locals {
 } 
 
 resource "spacelift_stack" "managed-stacks" {
-  for_each          = local.stacks
+  for_each          = toset(local.stacks)
   terraform_version = "1.4.6"
 
   name              = "AC ${each.value}"

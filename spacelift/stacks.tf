@@ -12,7 +12,7 @@ resource "spacelift_stack" "spacelift" {
   name              = "Spacelift"
   repository        = "spacelift-gcp-example-repo"
   branch            = "master"
-  project_root      = "spacelift"
+  project_root      = "spacelift/"
   administrative    = true
   autodeploy        = false
 }

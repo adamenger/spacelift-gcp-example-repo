@@ -15,5 +15,6 @@ resource "spacelift_stack" "managed-stacks" {
   project_root      = "projects/${each.value}"
   administrative    = false
   autodeploy        = false
+  worker_pool_id    = spacelift_worker_pool.k8s.id
 
 }

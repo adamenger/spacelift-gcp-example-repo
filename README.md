@@ -16,7 +16,7 @@ The idea: Limit Spacelift's worker access to its own dedicated project and creat
 
 In this repo we've published a module under `modules/spacelift-operator`. This module reduces the boilerplate to add the Spacelift Operator account to each project.
 
-You can use it like so:
+You can use it by adding a `spacelift.tf` that contains the following in each project:
 
 ```
 module "spacelift-operator" {

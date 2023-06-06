@@ -1,3 +1,7 @@
+# do not commit token or key files
+spacelift.key
+spacelift.token
+
 # Local .terraform directories
 **/.terraform/*
 

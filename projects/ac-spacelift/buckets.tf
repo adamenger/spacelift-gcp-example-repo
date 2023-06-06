@@ -14,11 +14,11 @@ resource "google_storage_bucket" "state-buckets" {
 
 resource "google_storage_bucket_iam_policy" "state-policy" {
   for_each      = toset(local.stacks.stacks)
-  bucket        = google_storage_bucket.state-buckets.name
+  bucket        = google_storage_bucket.state-buckets[each.value].name
   policy_data   = data.google_iam_policy.state-admin.policy_data
 }
 
-data "google_iam_policy" "state-admin" {
+data "google_iam_policy" "spacelift-state-admin" {
   binding {
     role = "roles/storage.admin"
     members = [

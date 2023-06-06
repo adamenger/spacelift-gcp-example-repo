@@ -4,13 +4,13 @@ locals {
 
 resource "spacelift_stack" "managed-stacks" {
   for_each          = local.stacks
-  name              = "Stack managed by Spacelift"
+  terraform_version = "1.4.6"
+
+  name              = "AC ${each.value}"
   repository        = "adamenger/spacelift-gcp-example-repo"
   branch            = "master"
-  administrative    = true
-  autodeploy        = true
-  description       = "Provisions a Kubernetes cluster"
-  name              = "Kubernetes Cluster"
   project_root      = "projects/${each.value}"
-  terraform_version = "1.4.6"
+  administrative    = false
+  autodeploy        = false
+
 }

@@ -2,6 +2,21 @@ locals {
  stacks = yamldecode(file("../stacks.yml"))
 } 
 
+# managing spacelift with spacelift, woah
+resource "spacelift_stack" "spacelift" {
+  terraform_version = "1.4.6"
+  github_enterprise {
+    namespace       = "adamenger"
+  }
+
+  name              = "Spacelift"
+  repository        = "spacelift-gcp-example-repo"
+  branch            = "master"
+  project_root      = "spacelift"
+  administrative    = true
+  autodeploy        = false
+}
+
 resource "spacelift_stack" "managed-stacks" {
   for_each          = toset(local.stacks.stacks)
   terraform_version = "1.4.6"
